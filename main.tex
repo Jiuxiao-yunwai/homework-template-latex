@@ -11,6 +11,7 @@
 \usepackage{fancyhdr}
 \usepackage{etoolbox} % 用于逻辑判断
 \usepackage{hyperref}
+\usepackage{caption}
 % ================= 字体设置 =================
 % 引入 Inconsolata 等宽字体宏包，使代码英文字符显示为标准等宽字体
 % \usepackage{zi4} 
@@ -102,11 +103,12 @@
     tabsize=4
 }
 % ================= 包装代码环境 =================
+\usepackage{ifthen}
 % 定义 \begin{code}[语言名称] ... \end{code}
 \lstnewenvironment{code}[1][]
 {
     % 在环境开始时，将方括号内传入的参数（如 Python）赋给 language
-    \lstset{language=#1}
+    \ifthenelse{\equal{#1}{}}{}{\lstset{language=#1}}
 }
 {
     % 环境结束时的操作（保持为空）
