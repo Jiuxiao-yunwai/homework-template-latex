@@ -1,0 +1,176 @@
+% !TEX program = xelatex
+% !TEX encoding = UTF-8
+\documentclass[a4paper, 11pt]{ctexart}
+% 页面与边距
+\usepackage[margin=2cm]{geometry}
+% 数学与工具宏包
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{etoolbox} % 用于逻辑判断
+\usepackage{hyperref}
+% ================= 字体设置 =================
+% 引入 Inconsolata 等宽字体宏包，使代码英文字符显示为标准等宽字体
+% \usepackage{zi4} 
+% 如果你想使用系统自带的其他等宽字体（如 Consolas），
+% 可以注释掉上一行 \usepackage{zi4}，并取消下面两行的注释（需使用 XeLaTeX）：
+% \usepackage{fontspec}
+\setmonofont{Consolas}
+% ================= 页眉页脚 =================
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+% ================= 题目环境 (支持自动/自定义) =================
+% ================= 模式切换开关 =================
+\newif\ifshowproblem
+\showproblemtrue  % 模式 1：显示题目内容 (默认状态)
+% \showproblemfalse % 模式 2：隐藏题目内容 (取消这一行的注释即可切换)
+% ================= 题目环境 (支持模式切换与二级标题) =================
+\newcounter{problem}[section]
+\renewcommand{\theproblem}{\thesection.\arabic{problem}}
+\NewDocumentEnvironment{problem}{o +b}{%
+    \IfNoValueTF{#1}{%
+        \refstepcounter{problem}%
+        \subsection*{题目 \theproblem}%
+        \addcontentsline{toc}{subsection}{题目 \theproblem}%
+    }{%
+        \subsection*{题目 #1}%
+        \addcontentsline{toc}{subsection}{题目 #1}%
+    }%
+    % 判断模式：如果开启了显示题目，则输出被吸收的题目内容（#2）
+    \ifshowproblem
+        #2%
+    \fi
+}{%
+    % 只有在显示题目的模式下，才在底部增加间距
+    \ifshowproblem
+        \vspace{1ex}%
+    \fi
+}
+% ================= 答案框 =================
+\usepackage[many]{tcolorbox}
+\newtcolorbox{answer}{
+    enhanced,
+    breakable,
+    title=解答,
+    colback=white,
+    colframe=black!80,
+    fonttitle=\bfseries,
+    attach boxed title to top left={xshift=5mm,yshift=-2mm},
+    boxed title style={colback=black!80, size=small},
+    sharp corners,
+    top=4mm, bottom=4mm, left=4mm, right=4mm,
+    before skip=10pt, after skip=15pt,
+    pad at break=2mm,
+    bottomrule at break=1mm,
+    toprule at break=1mm
+}
+
+% ================= GitHub 风格代码高亮 =================
+\usepackage{listings}
+
+% GitHub 风格色彩定义
+\definecolor{gh_comment}{RGB}{106, 115, 125}   % 灰色注释
+\definecolor{gh_keyword}{RGB}{215, 58, 73}   % 红色关键字
+\definecolor{gh_string}{RGB}{3, 47, 98}      % 深蓝字符串
+\definecolor{gh_constant}{RGB}{0, 92, 197}   % 蓝色常量/数字
+\definecolor{gh_bg}{RGB}{246, 248, 250}      % 浅灰背景
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{gh_bg},
+    basicstyle=\ttfamily\small,      % 使用等宽字体 monomaple
+    breaklines=true,
+    showstringspaces=false,
+    commentstyle=\color{gh_comment},
+    keywordstyle=\color{gh_keyword}\bfseries,
+    stringstyle=\color{gh_string},
+    numberstyle=\tiny\color{gh_comment},
+    numbers=left,
+    frame=single,
+    rulecolor=\color{black!10},
+    xleftmargin=1em,
+    tabsize=4
+}
+% ================= 包装代码环境 =================
+% 定义 \begin{code}[语言名称] ... \end{code}
+\lstnewenvironment{code}[1][]
+{
+    % 在环境开始时，将方括号内传入的参数（如 Python）赋给 language
+    \lstset{language=#1}
+}
+{
+    % 环境结束时的操作（保持为空）
+}
+\everymath{\displaystyle}
+% ---------------- 标题 ----------------
+\title{\textbf{课程作业1}}
+\author{Jiuxiao}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{基础章节}
+
+\begin{problem}
+这里是题目1。
+\end{problem}
+
+\begin{answer}
+
+可以使用 \textbackslash{}code 环境来插入代码：
+
+\begin{code}[Python]
+def hello_fun():
+    print("Hello world")
+
+hello_fun()
+\end{code}
+
+\end{answer}
+
+\begin{problem}[1.1.1]
+这是通过参数自定义的编号。即使手动指定了编号，下一次使用自动编号时，计数器依然会从上一题的基础位移。
+\end{problem}
+
+\begin{answer}
+准确率（Accuracy）与错误率（Error Rate）的计算公式如下：
+
+\[
+\text{Accuracy} = \frac{TP + TN}{P + N}, \quad \text{Error Rate} = 1 - \text{Accuracy}
+\]
+
+\end{answer}
+
+\begin{problem}
+这是紧接在自定义编号后的自动编号。
+\end{problem}
+\begin{answer}
+    显然。$\square$
+\end{answer}
+
+\section{附加题}
+\begin{problem}
+这是第二部分的题目。
+\end{problem}
+\begin{answer}
+    文档开启了为所有数学公式启用 \textbackslash{}displaystyle参数，
+    这会使得\\行内公式 $ \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V $ 和 行间公式
+    \[
+        \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+    \]
+    一样大，注释掉前面的 \textbackslash{}everymath\{\textbackslash{}displaystyle\} 即可恢复默认
+\end{answer}
+
+\begin{problem}
+文档提供了输出纯答案的功能开关，在导言区使用\textbackslash{}showproblemtrue 为显示题目内容 (默认状态)，需要提交作业的时候使用 \textbackslash{}showproblemfalse 覆盖为隐藏题目内容模式，可以输出无题目仅答案的版本。
+\begin{answer}
+    现在，你可以删除正文部分并且开始使用这份模板了。
+\end{answer}
+\end{problem}
+\end{document}
