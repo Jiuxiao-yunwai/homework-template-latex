@@ -66,9 +66,15 @@
     before skip=10pt, after skip=15pt,
     pad at break=2mm,
     bottomrule at break=1mm,
-    toprule at break=1mm
+    toprule at break=1mm,
+    % --- 新增以下 overlay 代码来手动绘制跨页处的边框 ---
+    % 在第一页断页处的底部画线
+    overlay first={\draw[black!80, line width=0.5mm] (frame.south west) -- (frame.south east);},
+    % 在第二页接续处的顶部画线
+    overlay last={\draw[black!80, line width=0.5mm] (frame.north west) -- (frame.north east);},
+    % 如果盒子内容极长跨了三页及以上，为中间页的上下都画线
+    overlay middle={\draw[black!80, line width=0.5mm] (frame.south west) -- (frame.south east); \draw[black!80, line width=1mm] (frame.north west) -- (frame.north east);}
 }
-
 % ================= GitHub 风格代码高亮 =================
 \usepackage{listings}
 
@@ -169,8 +175,39 @@ hello_fun()
 
 \begin{problem}
 文档提供了输出纯答案的功能开关，在导言区使用\textbackslash{}showproblemtrue 为显示题目内容 (默认状态)，需要提交作业的时候使用 \textbackslash{}showproblemfalse 覆盖为隐藏题目内容模式，可以输出无题目仅答案的版本。
+\end{problem}
 \begin{answer}
     现在，你可以删除正文部分并且开始使用这份模板了。
 \end{answer}
-\end{problem}
+% \begin{answer}
+%     大框测试。
+%     \[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]
+%     \[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]\[
+%         \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+%     \]
+% \end{answer}
 \end{document}
