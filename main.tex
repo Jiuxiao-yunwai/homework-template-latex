@@ -110,6 +110,16 @@
     xleftmargin=1em,
     tabsize=4
 }
+% ================= 增强 Matlab 支持 =================
+\lstdefinelanguage{MatlabGH}{
+    language=Matlab,
+    % 补充 Matlab 常用的关键字和内置函数，让它们显示为红色
+    morekeywords={ones, zeros, figure, plot, hold, on, off, legend, title, xlabel, ylabel, ksdensity, lognrnd, lognpdf, disp, fprintf},
+    % 确保单引号被正确识别为字符串，并应用 gh_string 深蓝色
+    morestring=[b]',
+    % 确保百分号被正确识别为单行注释，并应用 gh_comment 灰色
+    morecomment=[l]{\%},
+}
 % ================= 包装代码环境 =================
 \usepackage{ifthen}
 % 定义 \begin{code}[语言名称] ... \end{code}
@@ -150,7 +160,12 @@ def hello_fun():
 
 hello_fun()
 \end{code}
-
+\begin{code}[MatlabGH]
+% 生成对数正态分布样本
+mu = 2;
+sigma = 0.5;
+data = lognrnd(mu, sigma, 1000, 1);
+\end{code}
 \end{answer}
 
 \begin{problem}[1.1.1]
@@ -192,6 +207,7 @@ hello_fun()
 \begin{answer}
     现在，你可以删除正文部分并且开始使用这份模板了。
 \end{answer}
+
 % \begin{answer}
 %     大框测试。
 %     \[
