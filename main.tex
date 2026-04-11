@@ -29,10 +29,13 @@
 \newif\ifshowproblem
 \showproblemtrue  % 模式 1：显示题目内容 (默认状态)
 % \showproblemfalse % 模式 2：隐藏题目内容 (取消这一行的注释即可切换)
-% ================= 题目环境 (支持模式切换与二级标题) =================
+
+% ================= 题目环境 (支持模式切换与二级标题，修复 SyncTeX) =================
 \newcounter{problem}[section]
 \renewcommand{\theproblem}{\thesection.\arabic{problem}}
-\NewDocumentEnvironment{problem}{o +b}{%
+
+\NewDocumentEnvironment{problem}{o}{%
+    % 1. 处理标题和目录部分（这部分无论是否隐藏内容都会显示）
     \IfNoValueTF{#1}{%
         \refstepcounter{problem}%
         \subsection*{题目 \theproblem}%
@@ -41,14 +44,19 @@
         \subsection*{题目 #1}%
         \addcontentsline{toc}{subsection}{题目 #1}%
     }%
-    % 判断模式：如果开启了显示题目，则输出被吸收的题目内容（#2）
+    % 2. 核心修改：处理主体内容
     \ifshowproblem
-        #2%
+        % 显示模式：不进行任何包裹，让内容自然流入文档，完美支持 SyncTeX
+    \else
+        % 隐藏模式：开启一个 \vbox 盒子，把后续所有内容吸收到盒子中且不输出
+        \setbox0=\vbox\bgroup
     \fi
 }{%
-    % 只有在显示题目的模式下，才在底部增加间距
     \ifshowproblem
-        \vspace{1ex}%
+        % 显示模式：正常结束，如果需要底部间距可以在这里加 \vspace{1ex}
+    \else
+        % 隐藏模式：关闭盒子，盒子内的内容将被直接丢弃
+        \egroup
     \fi
 }
 % ================= 答案框 =================
@@ -114,6 +122,9 @@
     % 环境结束时的操作（保持为空）
 }
 \everymath{\displaystyle}
+\let\oldfrac\frac
+\renewcommand{\frac}[2]{\oldfrac{\displaystyle #1}{\displaystyle #2}}
+% 让分数和行内公式不再缩小
 % ---------------- 标题 ----------------
 \title{\textbf{课程作业1}}
 \author{Jiuxiao}
