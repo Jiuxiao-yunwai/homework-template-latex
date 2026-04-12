@@ -131,9 +131,17 @@
 {
     % 环境结束时的操作（保持为空）
 }
-\everymath{\displaystyle}
+% \everymath{\displaystyle}
+% \let\oldfrac\frac
+% \renewcommand{\frac}[2]{\oldfrac{\displaystyle #1}{\displaystyle #2}}
 \let\oldfrac\frac
-\renewcommand{\frac}[2]{\oldfrac{\displaystyle #1}{\displaystyle #2}}
+\renewcommand{\frac}[2]{%
+  \mathchoice
+    {\oldfrac{\displaystyle #1}{\displaystyle #2}} % 1. 行间公式 (Display style)
+    {\oldfrac{\displaystyle #1}{\displaystyle #2}} % 2. 行内公式 (Text style) -> 强制显示为大尺寸
+    {\oldfrac{#1}{#2}}                             % 3. 指数/下标 (Script style) -> 使用默认缩放
+    {\oldfrac{#1}{#2}}                             % 4. 次级指数 (ScriptScript style) -> 使用默认缩放
+}
 % 让分数和行内公式不再缩小
 % ---------------- 标题 ----------------
 \title{\textbf{课程作业1}}
