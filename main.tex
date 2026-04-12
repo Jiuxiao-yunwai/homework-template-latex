@@ -82,7 +82,7 @@
     % 在第二页接续处的顶部画线
     overlay last={\draw[black!80, line width=0.5mm] (frame.north west) -- (frame.north east);},
     % 如果盒子内容极长跨了三页及以上，为中间页的上下都画线
-    overlay middle={\draw[black!80, line width=0.5mm] (frame.south west) -- (frame.south east); \draw[black!80, line width=1mm] (frame.north west) -- (frame.north east);}
+    overlay middle={\draw[black!80, line width=0.5mm] (frame.south west) -- (frame.south east); \draw[black!80, line width=0.5mm] (frame.north west) -- (frame.north east);}
 }
 % ================= GitHub 风格代码高亮 =================
 \usepackage{listings}
