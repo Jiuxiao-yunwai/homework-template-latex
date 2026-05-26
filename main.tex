@@ -18,6 +18,10 @@
 % 如果你想使用系统自带的其他等宽字体（如 Consolas），
 % 可以注释掉上一行 \usepackage{zi4}，并取消下面两行的注释（需使用 XeLaTeX）：
 % \usepackage{fontspec}
+% 把句号映射为句点
+\usepackage{newunicodechar}
+\newunicodechar{。}{．}
+
 \setmonofont{Consolas}
 % ================= 页眉页脚 =================
 \pagestyle{fancy}
